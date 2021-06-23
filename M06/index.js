@@ -10,28 +10,37 @@ app.use(logger("dev"));
 
 app.use(express.static(__dirname + '/publik'));
 
-app.get("/api/test", function(req, res){
-    res.statusCode = 200;
-
-    res.setHeader("Content-Type", "text/plain");
-    res.send(req.params);
-});
-
-
+//Middleware cek nim
 const myMiddleware = (req, res, next) => {
-    if (req.params.nim === "123") {
-      console.log("Nim terverifikasi");
+    if (req.params.name === "Bryan") {
+      console.log("nama verified");
       next();
     } else {
       const err = {
         status: "error",
         data: {
-          nim: req.params.nim,
+            name: req.body.nama,
+            
         },
       };
       next(err);
     }
   };
+
+// app.get("/api/test", function(req, res){
+//     res.statusCode = 200;
+
+//     res.setHeader("Content-Type", "text/plain");
+//     res.send(req.params);
+// });
+
+app.get("/api/:name/:status", myMiddleware, function (req, res) {
+    res.statusCode = 200;
+    //content-type pada expressjs
+    res.setHeader("Content-Type", "text/plain");
+    res.send(req.params);
+    
+  });
 
 var data = bodyParser.urlencoded({extended: true});
 app.post("/api/DataWarga",data,function(req, res){
