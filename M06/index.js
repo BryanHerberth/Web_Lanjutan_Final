@@ -10,7 +10,7 @@ app.use(logger("dev"));
 
 app.use(express.static(__dirname + '/publik'));
 
-//Middleware cek nim
+
 const myMiddleware = (req, res, next) => {
     if (req.params.name === "Bryan") {
       console.log("nama verified");
@@ -27,17 +27,12 @@ const myMiddleware = (req, res, next) => {
     }
   };
 
-// app.get("/api/test", function(req, res){
-//     res.statusCode = 200;
 
-//     res.setHeader("Content-Type", "text/plain");
-//     res.send(req.params);
-// });
 
 app.get("/api/:name/:status", myMiddleware, function (req, res) {
     res.statusCode = 200;
     //content-type pada expressjs
-    res.setHeader("Content-Type", "text/plain");
+    res.setHeader("Content-Type", "application/json");
     res.send(req.params);
     
   });
